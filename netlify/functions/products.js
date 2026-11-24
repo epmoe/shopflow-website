@@ -23,15 +23,15 @@ exports.handler = async (event, context) => {
                 rejectUnauthorized: true
             }
         });
-        console.log("Database configuration check:", {
-    host: !!process.env.DB_HOST,
-    port: !!process.env.DB_PORT,
-    user: !!process.env.DB_USER,
-    password: !!process.env.DB_PASSWORD,
-    database: !!process.env.DB_NAME,
-    certificate: !!process.env.DB_CA_CERT,
-    certificateLength: process.env.DB_CA_CERT?.length
-});
+    const { X509Certificate } = require('node:crypto');
+
+const cert = new X509Certificate(
+    process.env.DB_CA_CERT.replace(/\\n/g, '\n')
+);
+
+console.log("Certificate subject:", cert.subject);
+console.log("Certificate issuer:", cert.issuer);
+console.log("Certificate expiration:", cert.validTo);
         const [rows] = await connection.execute(
             'SELECT product_id, product_name, category, price, stock_quantity FROM products WHERE status = ?',
             ['Active']
