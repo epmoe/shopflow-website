@@ -47,7 +47,7 @@ exports.handler = async (event, context) => {
         return {
             statusCode: 500,
             headers,
-            body: JSON.stringify({ error: 'Database connection failed' })
+            body: JSON.stringify({ error: 'Database connection failed---TEST123' })
         };
     } finally {
         if (connection) await connection.end();
