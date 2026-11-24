@@ -37,9 +37,9 @@ exports.handler = async (event, context) => {
         }
 
         // Inspect certificate BEFORE connecting
-        const ca = process.env.DB_CA_CERT
-            .replace(/\\n/g, '\n')
-            .trim();
+        const ca = Buffer.from(
+    process.env.DB_CA_CERT, 'base64'
+).toString('utf8');
 
         const cert = new X509Certificate(ca);
 
