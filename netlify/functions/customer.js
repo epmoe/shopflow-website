@@ -29,7 +29,7 @@ exports.handler = async (event, context) => {
             password: process.env.DB_PASSWORD,
             database: process.env.DB_NAME,
             ssl: {
-                ca: process.env.DB_CA_CERT.replace(/\\n/g, '\n'),
+                ca: Buffer.from(process.env.DB_CA_CERT, 'base64').toString('utf8'),
                 rejectUnauthorized: true
             }
         });
